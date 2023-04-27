@@ -112,6 +112,7 @@ document.addEventListener("DOMContentLoaded", function () {
   button.addEventListener("click", function () {
     console.log("CLICKED!!!");
     if (solveSudoku(0, 0)) {
+      setSolvedSudoku();
       console.log("SUCCESSFUL!");
       setStatus();
     } else {
@@ -122,6 +123,22 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
+
+document.addEventListener("DOMContentLoaded", function () {
+  let button = document.getElementById("reset");
+  button.addEventListener("click", function () {
+    for (let r = 0; r < N; r++) {
+      for (let c = 0; c < N; c++) {
+        let cell = document.getElementById(`${r}-${c}`);
+        cell.innerText = randomSudoku[r][c];
+        let status = document.getElementById("status");
+        status.innerText = "Status : Unsolved!";
+      }
+    }
+  });
+});
+
+
 function setStatus() {
   let status = document.getElementById("status");
   status.innerText = "Status : Solved!";
@@ -130,8 +147,8 @@ function setStatus() {
 function setSolvedSudoku() {
   for (let r = 0; r < N; r++) {
     for (let c = 0; c < N; c++) {
-      let holder = document.getElementById(`${r}-${c}`);
-      holder.innerText = finishedSudoku[r][c];
+      let cell = document.getElementById(`${r}-${c}`);
+      cell.innerText = finishedSudoku[r][c];
     }
   }
 }
@@ -163,7 +180,6 @@ function isSafe(row, col, x) {
 function solveSudoku(row, col) {
   if (row == 16) {
     // Base case: we have filled in every cell in the grid
-    setSolvedSudoku();
     return true;
   }
 
